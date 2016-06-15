@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    
+
+        <EditText
+            android:layout_marginTop="15dp"
+            android:id="@+id/edit_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textEmailAddress"
+            android:layout_marginRight="15dip"
+            android:layout_marginLeft="15dip"
+            android:hint="输入注册时的邮箱号" >
+
+            <requestFocus />
+        </EditText>
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="确认"
+                android:textSize="18sp" 
+                android:textColor="@color/white"
+                android:background="@drawable/drawable_normalbutton_selector"/>
+</LinearLayout>

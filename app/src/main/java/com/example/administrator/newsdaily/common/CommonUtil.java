@@ -1,0 +1,120 @@
+package com.example.administrator.newsdaily.common;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * 获取系统时间,文件大小,当前日期,当前版本号imei,密码格式
+ */
+public class CommonUtil {
+    public static final String APPURL       = "http://118.244.212.82:9092/newsClient";
+    public static final int    VERSION_CODE = 1;
+
+    /**
+     * 获取系统时间
+     * @return systime
+     */
+    public static String getSystime() {
+        String systime;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        systime = dateFormat.format(new Date(System.currentTimeMillis()));
+        return systime;
+    }
+
+    /**
+     * 获取文件大小
+     * @param fileSize
+     * @return
+     */
+    public static String getFileSize(long fileSize) {
+//        DecimalFormat用于格式化十进制数字
+//        #一个数字,不包括0
+        DecimalFormat df = new DecimalFormat("#.00");
+        StringBuffer sb = new StringBuffer();
+        if (fileSize < 1024) {
+            sb.append(fileSize);
+            sb.append(" B");
+        } else if (fileSize < 1048576) {
+            sb.append(df.format((double) fileSize / 1024));
+            sb.append(" K");
+        } else if (fileSize < 1073741824) {
+            sb.append(df.format((double) fileSize / 1048576));
+            sb.append(" M");
+        } else {
+            sb.append(df.format((double) fileSize / 1073741824));
+            sb.append(" G");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 获取当前日期
+     *
+     * @return 20140716
+     */
+    public static String getDate() {
+        Date date = new Date(System.currentTimeMillis());
+        String strs = "";
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            strs = sdf.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//		return "20140321";
+        return strs;
+    }
+
+    /**
+     * 验证邮箱格式
+     *
+     * @param email email
+     * @return
+     */
+    public static boolean verifyEmail(String email) {
+        Pattern pattern = Pattern
+                .compile("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)" +
+                        "|(([a-zA-Z0-9\\-]+\\.)+))" +
+                        "([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    /***
+     * 验证密码格式
+     *
+     * @param password
+     * @return
+     */
+    public static boolean verifyPassword(String password) {
+        Pattern pattern = Pattern
+                .compile("^[a-zA-Z0-9]{6,16}$");
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
+    /**
+     * 获取当前的版本号
+     *
+     * @param context 上下文对象
+     * @return 当前版本
+     */
+    public static int getVersionCode(Context context)//获取版本号(内部识别号)
+    {
+        try {
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return 0;
+        }
+    }
+}
